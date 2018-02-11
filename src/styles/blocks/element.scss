@@ -1,0 +1,24 @@
+.list-elements {
+    width: 100%;
+    display: inline-block;
+
+    .element {
+        width: 70px;
+        height: 70px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        cursor: pointer;
+        list-style: none;
+        float: left;
+        position: absolute;
+        margin: 5px;
+        z-index: 2;
+
+        &.ui-draggable-dragging {
+            transform: scale(1.5);
+            z-index: 9999;
+        }
+    }
+}
+
