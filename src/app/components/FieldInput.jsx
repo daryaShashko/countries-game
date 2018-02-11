@@ -101,6 +101,13 @@ class FieldInput extends React.Component {
       console.log('please, enter the country');
     }
 
+    fetch(`https://restcountries.eu/rest/v2/name/{value}`)
+      .then(response => response.json())
+      .then(json => json.map(el => el.latlng))
+      .then(location =>
+        this.props.onAddLocation(location)
+      )
+
   }
 
   render() {
@@ -134,6 +141,10 @@ export default connect(
     },
     onChangeCurrentValue: (value) => {
       dispatch({type: 'CHANGE_CURRENT_VALUE', currentValue: value});
+    },
+
+    onAddLocation: (value) =>{
+      dispatch({type: 'ADD_LOCATION', location: value});
     },
     onAddComputerCountry: (countryNameS) => {
       dispatch({type: 'UPDATE_WHOSE_TURN'});
