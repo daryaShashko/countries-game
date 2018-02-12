@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
+import fetch from "isomorphic-fetch";
 
 
 class FieldInput extends React.Component {
@@ -15,7 +16,14 @@ class FieldInput extends React.Component {
   clickHandler() {
     this.props.onAddUserCountry(this.textInput.value);
     this.props.onChangeCurrentValue(this.textInput.value.toLowerCase());
+    fetch(`https://restcountries.eu/rest/v2/name/${this.textInput.value.toLowerCase()}`)
+      .then(response => response.json())
+      .then(json => json[0].latlng)
+      .then(location =>
+        this.props.onAddLocation(location)
+      );
     this.textInput.value = '';
+
   }
 
   clickHandlerVoice() {
@@ -60,6 +68,13 @@ class FieldInput extends React.Component {
       self.props.onAddUserCountry(country);
       self.props.onChangeCurrentValue(country);
 
+      fetch(`https://restcountries.eu/rest/v2/name/${country}`)
+        .then(response => response.json())
+        .then(json => json[0].latlng)
+        .then(location =>
+          this.props.onAddLocation(location)
+        );
+
       console.log('Confidence: ' + event.results[0][0].confidence, country);
     }
 
@@ -97,16 +112,19 @@ class FieldInput extends React.Component {
       this.props.onAddComputerCountry(computerCountry);
       this.props.onChangeCurrentValue(computerCountry);
 
+      fetch(`https://restcountries.eu/rest/v2/name/${computerCountry}`)
+        .then(response => response.json())
+        .then(json => json[0].latlng)
+        .then(location =>
+          this.props.onAddLocation(location)
+        )
+
+
     } else if (this.props.gameData.userTurn) {
       console.log('please, enter the country');
     }
 
-    fetch(`https://restcountries.eu/rest/v2/name/{value}`)
-      .then(response => response.json())
-      .then(json => json.map(el => el.latlng))
-      .then(location =>
-        this.props.onAddLocation(location)
-      )
+
 
   }
 

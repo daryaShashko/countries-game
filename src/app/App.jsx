@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 
 
 import FieldInput from './components/FieldInput.jsx';
-import Map from './components/Map.jsx';
+import MapArea from './components/MapArea.jsx';
 
 
 class App extends React.Component {
@@ -44,7 +44,7 @@ class App extends React.Component {
           </div>
         </div>
 
-        <Map/>
+        <MapArea/>
       </div>
     )
   }

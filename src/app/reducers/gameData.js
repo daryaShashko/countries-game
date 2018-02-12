@@ -1,7 +1,6 @@
 const initialState = {
   currentValue: [],
-  userTurn: true,
-  location: []
+  userTurn: true
 };
 
 export default function gameData(state = initialState, action) {
@@ -12,10 +11,6 @@ export default function gameData(state = initialState, action) {
   } else if (action.type === 'UPDATE_WHOSE_TURN') {
     return Object.assign({}, state, {
       userTurn: (!state.userTurn)
-    });
-  } else if (action.type === 'ADD_LOCATION'){
-    return Object.assign({}, state, {
-      location: action.location
     });
   }
   return state;
