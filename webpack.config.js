@@ -46,7 +46,8 @@ module.exports = {
                     }
                   }),
                   require('postcss-math'),
-                  require('postcss-color-function')
+                  require('postcss-color-function'),
+                  require('postcss-css-reset')({ })
                 ]
               }
             },

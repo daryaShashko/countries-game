@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 
 import FieldInput from './components/FieldInput.jsx';
 import MapArea from './components/MapArea.jsx';
+import BoardOfResults from './components/BoardOfResults.jsx';
 
 
 class App extends React.Component {
@@ -27,23 +28,7 @@ class App extends React.Component {
     return (
       <div>
         <FieldInput/>
-        <div className="board__container">
-          <div className="board bord_computer">
-            <ul className="bord__list">
-              {this.props.computerCountries.map(
-                (x, i) => <li key={i}>{x}</li>
-              )}
-            </ul>
-          </div>
-          <div className="board bord_user">
-            <ul className="bord__list">
-              {this.props.userCountries.map(
-                (x, i) => <li key={i}>{x}</li>
-              )}
-            </ul>
-          </div>
-        </div>
-
+       <BoardOfResults />
         <MapArea/>
       </div>
     )

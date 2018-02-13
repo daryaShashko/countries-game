@@ -3,9 +3,8 @@
 }
 
 body {
-    background-color: var(--color-gray);
     color: var(--color-black);
-    font: 400 14px var(--font-total);
+    font: 400 16px var(--font-total);
     margin: 0;
     padding: 0;
 }
@@ -16,15 +15,5 @@ ol {
     padding: 0;
 }
 
-@custom-selector :--button button, .button;
-@custom-selector :--enter :hover, :focus;
-
-:--button{
-      background-color: var(--color-blue);
-  }
-
-:--button:--enter{
-  background-color: var(--color-red);
-           }
 
 

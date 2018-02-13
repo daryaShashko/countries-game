@@ -1,0 +1,28 @@
+.form-area {
+  padding: 25px 0;
+  text-align: center;
+
+  & > *{
+    text-align: center;
+    display: block;
+    margin: auto;
+  }
+
+  * + *{
+    margin-top: 15px;
+  }
+}
+
+.form-area__label{
+  font: 28px var(--font-total);
+}
+
+
+.form-area__input{
+  text-align: left;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid var(--color-gray);
+}
+
+

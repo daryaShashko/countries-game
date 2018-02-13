@@ -9,8 +9,8 @@
     --color-green:      #669C3A;
     --color-blue:       #4AABED;
 
-    --font-total:       'Luckiest Guy';
-    --font-heading:     'Eater';
-    --font-heading-2:   'Snowburst One';
+    --font-total:       Verdana, Geneva, sans-serif;
 }
 
+@custom-selector :--button button, .button;
+@custom-selector :--enter :hover, :focus;
