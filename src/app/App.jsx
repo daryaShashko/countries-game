@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import fetch from 'isomorphic-fetch'
 import {connect} from 'react-redux';
 
-
 import FieldInput from './components/FieldInput.jsx';
 import MapArea from './components/MapArea.jsx';
 import BoardOfResults from './components/BoardOfResults.jsx';
@@ -26,11 +25,18 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
-        <FieldInput/>
-       <BoardOfResults />
-        <MapArea/>
-      </div>
+      <React.Fragment>
+        <div className="row">
+          <div className="content-wrapper">
+            <FieldInput/>
+            <BoardOfResults/>
+          </div>
+          <div className="content-wrapper">
+            <MapArea/>
+          </div>
+        </div>
+
+      </React.Fragment>
     )
   }
 }

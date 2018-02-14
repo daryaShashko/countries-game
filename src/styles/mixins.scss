@@ -1,0 +1,7 @@
+@mixin button-color($color){
+  background-color: $color;
+
+  &:--enter{
+    background-color: color($color shade(20%));;
+  }
+}

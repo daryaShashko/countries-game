@@ -1,0 +1,14 @@
+.row{
+  width: 100%;
+}
+
+.content-wrapper{
+  margin-top: 25px;
+}
+
+
+@media #{$break3} {
+  .row{
+    display: flex;
+  }
+}

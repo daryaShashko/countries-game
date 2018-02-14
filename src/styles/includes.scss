@@ -1,11 +1,11 @@
 @import "variables.scss";
 @import "mixins";
 @import "global.scss";
+@import "layout.scss";
 
-@import "partials/buttons.scss";
 
-@import "blocks/element.scss";
 @import "blocks/form-area.scss";
 @import "blocks/board.scss";
 @import "blocks/map-area.scss";
 @import "blocks/button.scss";
+@import "blocks/flex-container.scss";

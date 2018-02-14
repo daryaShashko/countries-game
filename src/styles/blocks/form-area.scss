@@ -23,6 +23,32 @@
   padding: 8px 12px;
   border-radius: 4px;
   border: 1px solid var(--color-gray);
+  max-height: 33px;
+}
+
+
+.form-area__voice-result{
+  visibility: hidden;
+  height: 0;
+
+  &_visible{
+    visibility: visible;
+    height: auto;
+  }
+}
+
+.form-area__controlls{
+  margin-top: 0;
+  margin-left: 15px;
+
+  .button{
+    display: block;
+
+    & + .button {
+      margin-left: 0;
+
+    }
+  }
 }
 
 

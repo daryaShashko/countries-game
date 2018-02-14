@@ -1,0 +1,12 @@
+.flex-container{
+  display: flex;
+
+  &.--middle{
+    justify-content: center;
+
+  }
+
+  &.--center{
+    align-items: center;
+  }
+}

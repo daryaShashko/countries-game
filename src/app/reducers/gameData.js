@@ -1,6 +1,8 @@
 const initialState = {
   currentValue: [],
-  userTurn: true
+  userTurn: true,
+  listOfDeletedCountries: [],
+  stopGame: false
 };
 
 export default function gameData(state = initialState, action) {
@@ -11,6 +13,14 @@ export default function gameData(state = initialState, action) {
   } else if (action.type === 'UPDATE_WHOSE_TURN') {
     return Object.assign({}, state, {
       userTurn: (!state.userTurn)
+    });
+  } else if(action.type === "REMOVE_COUNTRY_FROM_LIST"){
+    return Object.assign({}, state, {
+      listOfDeletedCountries: [...state.listOfDeletedCountries, action.countriesList]
+    });
+  } else if(action.type === "STOP_THE_GAME"){
+    return Object.assign({}, state, {
+      stopGame: (!state.stopGame)
     });
   }
   return state;
