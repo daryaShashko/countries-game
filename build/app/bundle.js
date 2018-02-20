@@ -22581,7 +22581,6 @@ var FieldInput = function (_React$Component) {
     value: function startAgain() {
       var _this3 = this;
 
-      this.props.store.length = 0;
       (0, _isomorphicFetch2.default)('https://restcountries.eu/rest/v2/all').then(function (response) {
         return response.json();
       }).then(function (json) {

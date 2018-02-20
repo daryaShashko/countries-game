@@ -154,7 +154,6 @@ class FieldInput extends React.Component {
   }
 
   startAgain(){
-    this.props.store.length = 0;
     fetch('https://restcountries.eu/rest/v2/all')
         .then(response => response.json())
         .then(json => json.map(country => country.name.toLowerCase()))

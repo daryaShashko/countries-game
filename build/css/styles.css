@@ -196,6 +196,11 @@ button:focus,
         -ms-flex-align: center;
             align-items: center; }
 
+.message {
+  height: 0;
+  width: 0;
+  display: none; }
+
 .message_visible {
   width: 100vw;
   height: 100vh;
