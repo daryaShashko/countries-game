@@ -1,0 +1,42 @@
+.message_visible{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, .3);
+  z-index: 2;
+}
+
+
+.message__wrapper{
+  max-width: 50%;
+  background: #fff;
+  border-radius: 4px;
+  padding: 30px;
+  margin: auto;
+}
+
+.message__content{
+  *{
+    display: block;
+    margin-top: 20px;
+  }
+
+  label{
+    margin-bottom: -10px;
+  }
+
+  input{
+    padding: 12px 8px ;
+    min-width: 300px;
+    border: 1px solid var(--color-gray);
+    border-radius: 4px;
+  }
+
+}
+
+.message__footer{
+  margin-top: 20px;
+}

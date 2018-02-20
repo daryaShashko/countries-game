@@ -56,14 +56,14 @@ ol {
     visibility: visible;
     height: auto; }
 
-.form-area__controlls {
+.form-area__controls {
   margin-top: 0;
   margin-left: 15px; }
 
-.form-area__controlls .button {
+.form-area__controls .button {
     display: block; }
 
-.form-area__controlls .button + .button {
+.form-area__controls .button + .button {
       margin-left: 0; }
 
 .board__container {
@@ -111,13 +111,13 @@ ol {
 .board__results-container .board {
     width: 48%; }
 
-.borad__result {
+.board__result {
   -webkit-box-flex: 1;
       -ms-flex: 1 0 100%;
           flex: 1 0 100%;
   text-align: center; }
 
-.borad__result span {
+.board__result span {
     color: #669C3A; }
 
 .map-area {
@@ -195,3 +195,38 @@ button:focus,
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center; }
+
+.message_visible {
+  width: 100vw;
+  height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, .3);
+  z-index: 2; }
+
+.message__wrapper {
+  max-width: 50%;
+  background: #fff;
+  border-radius: 4px;
+  padding: 30px;
+  margin: auto; }
+
+.message__content * {
+  display: block;
+  margin-top: 20px; }
+
+.message__content label {
+  margin-bottom: -10px; }
+
+.message__content input {
+  padding: 12px 8px;
+  min-width: 300px;
+  border: 1px solid #CDD8E0;
+  border-radius: 4px; }
+
+.message__footer {
+  margin-top: 20px; }

@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import FieldInput from './components/FieldInput.jsx';
 import MapArea from './components/MapArea.jsx';
 import BoardOfResults from './components/BoardOfResults.jsx';
+import Message from './components/Message.jsx';
 
 
 class App extends React.Component {
@@ -35,7 +36,7 @@ class App extends React.Component {
             <MapArea/>
           </div>
         </div>
-
+        <Message />
       </React.Fragment>
     )
   }

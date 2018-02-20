@@ -2651,7 +2651,7 @@ var _App = __webpack_require__(77);
 
 var _App2 = _interopRequireDefault(_App);
 
-var _reducers = __webpack_require__(88);
+var _reducers = __webpack_require__(89);
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -21835,6 +21835,10 @@ var _BoardOfResults = __webpack_require__(87);
 
 var _BoardOfResults2 = _interopRequireDefault(_BoardOfResults);
 
+var _Message = __webpack_require__(88);
+
+var _Message2 = _interopRequireDefault(_Message);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21890,7 +21894,8 @@ var App = function (_React$Component) {
             { className: 'content-wrapper' },
             _react2.default.createElement(_MapArea2.default, null)
           )
-        )
+        ),
+        _react2.default.createElement(_Message2.default, null)
       );
     }
   }]);
@@ -22425,6 +22430,7 @@ var FieldInput = function (_React$Component) {
     _this.state = {};
     _this.clickHandler = _this.clickHandler.bind(_this);
     _this.clickHandlerVoice = _this.clickHandlerVoice.bind(_this);
+    _this.startAgain = _this.startAgain.bind(_this);
     return _this;
   }
 
@@ -22504,9 +22510,13 @@ var FieldInput = function (_React$Component) {
         for (var i = 0; i < listOfCountries.length; i++) {
           if (listOfCountries[i].startsWith(lastCharacter)) {
             computerCountry = listOfCountries[i];
+            console.log(computerCountry);
             break;
           }
         }
+
+        this.props.onAddComputerCountry(computerCountry);
+        this.props.onChangeCurrentValue(computerCountry);
 
         (0, _isomorphicFetch2.default)('https://restcountries.eu/rest/v2/name/' + computerCountry).then(function (response) {
           return response.json();
@@ -22522,6 +22532,8 @@ var FieldInput = function (_React$Component) {
   }, {
     key: 'changeCountry',
     value: function changeCountry(newCountry) {
+      var message = document.querySelector('.message');
+
       var inputValue = newCountry.toLowerCase();
 
       var firstChar = inputValue.charAt(0);
@@ -22547,7 +22559,7 @@ var FieldInput = function (_React$Component) {
       }
 
       function wrongAnswer() {
-        alert('введи правильно');
+        message.classList.add('message_visible');
         self.textInput.value = '';
       }
 
@@ -22565,9 +22577,25 @@ var FieldInput = function (_React$Component) {
       }
     }
   }, {
+    key: 'startAgain',
+    value: function startAgain() {
+      var _this3 = this;
+
+      this.props.store.length = 0;
+      (0, _isomorphicFetch2.default)('https://restcountries.eu/rest/v2/all').then(function (response) {
+        return response.json();
+      }).then(function (json) {
+        return json.map(function (country) {
+          return country.name.toLowerCase();
+        });
+      }).then(function (countryNames) {
+        return _this3.props.onClickStartAgain(countryNames);
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       return _react2.default.createElement(
         'div',
@@ -22577,33 +22605,39 @@ var FieldInput = function (_React$Component) {
           { className: 'form-area__label', htmlFor: 'userCountry' },
           'Please, enter your country here'
         ),
-        _react2.default.createElement(
+        !this.props.gameData.stopGame ? _react2.default.createElement(
           'button',
           { className: 'button button_red', onClick: this.props.onClickStopTheGame, ref: function ref(button) {
-              return _this3.stopButton = button;
+              return _this4.stopButton = button;
             } },
           'Stop the game'
+        ) : _react2.default.createElement(
+          'button',
+          { className: 'button button_green', onClick: this.startAgain, ref: function ref(button) {
+              return _this4.startAgainButton = button;
+            } },
+          'Start again'
         ),
         _react2.default.createElement(
           'div',
           { className: 'flex-container --center --middle' },
           _react2.default.createElement('input', { className: 'form-area__input', id: 'userCountry', type: 'text', ref: function ref(input) {
-              _this3.textInput = input;
+              _this4.textInput = input;
             } }),
           _react2.default.createElement(
             'div',
-            { className: 'form-area__controlls' },
+            { className: 'form-area__controls' },
             _react2.default.createElement(
               'button',
               { className: 'button', onClick: this.clickHandler, ref: function ref(button) {
-                  return _this3.textButton = button;
+                  return _this4.textButton = button;
                 } },
               'Enter'
             ),
             _react2.default.createElement(
               'button',
               { className: 'button', onClick: this.clickHandlerVoice, ref: function ref(button) {
-                  return _this3.voiceButton = button;
+                  return _this4.voiceButton = button;
                 } },
               'Enter by voice'
             )
@@ -22616,14 +22650,14 @@ var FieldInput = function (_React$Component) {
           _react2.default.createElement(
             'button',
             { className: 'button button_green', ref: function ref(button) {
-                return _this3.buttonCounfirm = button;
+                return _this4.buttonCounfirm = button;
               } },
             'Confirm voice record'
           ),
           _react2.default.createElement(
             'button',
             { className: 'button button_orange', ref: function ref(button) {
-                return _this3.buttonReject = button;
+                return _this4.buttonReject = button;
               } },
             'Try again'
           )
@@ -22663,6 +22697,10 @@ exports.default = (0, _reactRedux.connect)(function (state) {
     },
     onClickStopTheGame: function onClickStopTheGame() {
       dispatch({ type: 'STOP_THE_GAME' });
+    },
+    onClickStartAgain: function onClickStartAgain(arrCountries) {
+      dispatch({ type: 'START_AGAIN_THE_GAME' });
+      dispatch({ type: 'ADD_COUNTRIES_LIST', countriesList: arrCountries });
     }
   };
 })(FieldInput);
@@ -22711,7 +22749,7 @@ var MapArea = function (_React$Component) {
     _this.state = {
       initialState: {
         center: [55.76, 37.64],
-        zoom: 2,
+        zoom: 1,
         controls: [],
         begaviors: []
       }
@@ -22738,7 +22776,6 @@ var MapArea = function (_React$Component) {
                 geometry: {
                   coordinates: el
                 },
-
                 properties: {
                   hintContent: 'Собственный значок метки',
                   balloonContent: 'Это красивая метка'
@@ -23668,7 +23705,7 @@ var BoardOfResults = function (_React$Component) {
     key: 'componentDidUpdate',
     value: function componentDidUpdate() {
       var boardResultContainer = window.document.querySelector('.board__results-container');
-      this.props.gameData.stopGame ? boardResultContainer.classList.add('board__results-container_visible') : false;
+      this.props.gameData.stopGame ? boardResultContainer.classList.add('board__results-container_visible') : boardResultContainer.classList.remove('board__results-container_visible');
     }
   }, {
     key: 'render',
@@ -23682,7 +23719,7 @@ var BoardOfResults = function (_React$Component) {
           this.props.gameData.listOfDeletedCountries.length === 0 ? _react2.default.createElement(
             'h2',
             { className: 'board__title' },
-            'User you start'
+            'Please enter your country first'
           ) : _react2.default.createElement(
             'h2',
             { className: 'board__title' },
@@ -23724,7 +23761,7 @@ var BoardOfResults = function (_React$Component) {
             ),
             _react2.default.createElement(
               'h2',
-              { className: 'borad__result' },
+              { className: 'board__result' },
               'Computer points: ',
               this.props.computerCountries.length * 10
             )
@@ -23750,14 +23787,14 @@ var BoardOfResults = function (_React$Component) {
             ),
             _react2.default.createElement(
               'h2',
-              { className: 'borad__result' },
+              { className: 'board__result' },
               'User points: ',
               this.props.userCountries.length * 10
             )
           ),
           _react2.default.createElement(
             'h2',
-            { className: 'borad__result' },
+            { className: 'board__result' },
             'Winner is ',
             this.props.userCountries.length !== this.props.computerCountries.length ? this.props.userCountries.length > this.props.computerCountries.length ? _react2.default.createElement(
               'span',
@@ -23803,28 +23840,119 @@ exports.default = (0, _reactRedux.connect)(function (state) {
 
 
 Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Message = function (_React$Component) {
+    _inherits(Message, _React$Component);
+
+    function Message(props) {
+        _classCallCheck(this, Message);
+
+        var _this = _possibleConstructorReturn(this, (Message.__proto__ || Object.getPrototypeOf(Message)).call(this, props));
+
+        _this.state = {};
+        _this.hideMessage = _this.hideMessage.bind(_this);
+        return _this;
+    }
+
+    _createClass(Message, [{
+        key: 'hideMessage',
+        value: function hideMessage() {
+            document.querySelector('.message').classList.remove('message_visible');
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                { className: 'message' },
+                _react2.default.createElement(
+                    'div',
+                    { className: 'message__wrapper' },
+                    _react2.default.createElement(
+                        'header',
+                        { className: 'message__header' },
+                        _react2.default.createElement(
+                            'h2',
+                            { className: 'message__title' },
+                            'Error'
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'section',
+                        { className: 'message__description' },
+                        _react2.default.createElement(
+                            'p',
+                            null,
+                            'This country has been entered or doesn`t exist'
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'footer',
+                        null,
+                        _react2.default.createElement(
+                            'button',
+                            { className: 'button', onClick: this.hideMessage },
+                            'Close'
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return Message;
+}(_react2.default.Component);
+
+;
+
+exports.default = Message;
+
+/***/ }),
+/* 89 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
 var _redux = __webpack_require__(14);
 
-var _userCountries = __webpack_require__(89);
+var _userCountries = __webpack_require__(90);
 
 var _userCountries2 = _interopRequireDefault(_userCountries);
 
-var _computerCountries = __webpack_require__(90);
+var _computerCountries = __webpack_require__(91);
 
 var _computerCountries2 = _interopRequireDefault(_computerCountries);
 
-var _listOfCountries = __webpack_require__(91);
+var _listOfCountries = __webpack_require__(92);
 
 var _listOfCountries2 = _interopRequireDefault(_listOfCountries);
 
-var _gameData = __webpack_require__(92);
+var _gameData = __webpack_require__(93);
 
 var _gameData2 = _interopRequireDefault(_gameData);
 
-var _location = __webpack_require__(93);
+var _location = __webpack_require__(94);
 
 var _location2 = _interopRequireDefault(_location);
 
@@ -23839,7 +23967,7 @@ exports.default = (0, _redux.combineReducers)({
 });
 
 /***/ }),
-/* 89 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23860,19 +23988,21 @@ function userCountries() {
 
   if (action.type === 'ADD_USER_COUNTRY') {
     return [].concat(_toConsumableArray(state), [action.country]);
+  } else if (action.type === "START_AGAIN_THE_GAME") {
+    return [];
   }
   return state;
 }
 
 /***/ }),
-/* 90 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 exports.default = computerCountries;
 
@@ -23881,17 +24011,19 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 var initialState = [];
 
 function computerCountries() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
-  var action = arguments[1];
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+    var action = arguments[1];
 
-  if (action.type === 'ADD_COMPUTER_COUNTRY') {
-    return [].concat(_toConsumableArray(state), [action.country]);
-  }
-  return state;
+    if (action.type === 'ADD_COMPUTER_COUNTRY') {
+        return [].concat(_toConsumableArray(state), [action.country]);
+    } else if (action.type === 'START_AGAIN_THE_GAME') {
+        return [];
+    }
+    return state;
 }
 
 /***/ }),
-/* 91 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23916,12 +24048,14 @@ function listOfCountries() {
     return [[].concat(_toConsumableArray(state))[0].filter(function (el) {
       return el !== action.countriesList;
     })];
+  } else if (action.type === 'START_AGAIN_THE_GAME') {
+    return [];
   }
   return state;
 }
 
 /***/ }),
-/* 92 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23961,12 +24095,19 @@ function gameData() {
     return Object.assign({}, state, {
       stopGame: !state.stopGame
     });
+  } else if (action.type === "START_AGAIN_THE_GAME") {
+    return {
+      currentValue: [],
+      userTurn: true,
+      listOfDeletedCountries: [],
+      stopGame: false
+    };
   }
   return state;
 }
 
 /***/ }),
-/* 93 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23987,6 +24128,8 @@ function location() {
 
   if (action.type === 'ADD_LOCATION') {
     return [].concat(_toConsumableArray(state), [action.location]);
+  } else if (action.type === "START_AGAIN_THE_GAME") {
+    return [];
   }
   return state;
 }
