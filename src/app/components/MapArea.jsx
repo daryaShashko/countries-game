@@ -10,7 +10,7 @@ class MapArea extends React.Component {
     this.state = {
       initialState: {
         center: [55.76, 37.64],
-        zoom: 2,
+        zoom: 1,
         controls: [],
         begaviors: []
       }
@@ -29,17 +29,13 @@ class MapArea extends React.Component {
                              geometry={{
                                coordinates: el
                              }}
-
                              properties={{
                                hintContent: 'Собственный значок метки',
                                balloonContent: 'Это красивая метка'
                              }}
                   />
                 )
-
             }
-
-
           </Map>
         </YMaps>
       </div>

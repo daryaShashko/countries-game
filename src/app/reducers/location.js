@@ -6,6 +6,8 @@ export default function location(state = initialState, action) {
       ...state,
       action.location
     ]
+  }  else if(action.type === "START_AGAIN_THE_GAME"){
+    return []
   }
   return state;
 }

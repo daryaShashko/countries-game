@@ -22,6 +22,13 @@ export default function gameData(state = initialState, action) {
     return Object.assign({}, state, {
       stopGame: (!state.stopGame)
     });
+  } else if(action.type === "START_AGAIN_THE_GAME"){
+    return {
+      currentValue: [],
+      userTurn: true,
+      listOfDeletedCountries: [],
+      stopGame: false
+    }
   }
   return state;
 }

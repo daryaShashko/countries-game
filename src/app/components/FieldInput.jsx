@@ -10,6 +10,7 @@ class FieldInput extends React.Component {
     this.state = {};
     this.clickHandler = this.clickHandler.bind(this);
     this.clickHandlerVoice = this.clickHandlerVoice.bind(this);
+    this.startAgain = this.startAgain.bind(this);
   }
 
   clickHandler(e) {
@@ -77,7 +78,6 @@ class FieldInput extends React.Component {
 
   }
 
-
   componentDidUpdate() {
 
     const lastCharacter = this.props.gameData.currentValue.slice(-1);
@@ -88,9 +88,13 @@ class FieldInput extends React.Component {
       for (let i = 0; i < listOfCountries.length; i++) {
         if (listOfCountries[i].startsWith(lastCharacter)) {
           computerCountry = listOfCountries[i];
+          console.log(computerCountry);
           break;
         }
       }
+
+      this.props.onAddComputerCountry(computerCountry);
+      this.props.onChangeCurrentValue(computerCountry);
 
       fetch(`https://restcountries.eu/rest/v2/name/${computerCountry}`)
         .then(response => response.json())
@@ -104,6 +108,8 @@ class FieldInput extends React.Component {
   }
 
   changeCountry(newCountry) {
+    const message = document.querySelector('.message');
+
     const inputValue = newCountry.toLowerCase();
 
     const firstChar = inputValue.charAt(0);
@@ -117,9 +123,7 @@ class FieldInput extends React.Component {
       return el === inputValue;
     }
 
-
     (listOfCountries.some(isEqual)) ? validation() : wrongAnswer();
-
 
     function validation() {
       if (self.props.userCountries.length > 0 && firstChar === lastChar) {
@@ -132,7 +136,7 @@ class FieldInput extends React.Component {
     }
 
     function wrongAnswer() {
-      alert('введи правильно');
+      message.classList.add('message_visible');
       self.textInput.value = '';
     }
 
@@ -149,18 +153,29 @@ class FieldInput extends React.Component {
     }
   }
 
+  startAgain(){
+    this.props.store.length = 0;
+    fetch('https://restcountries.eu/rest/v2/all')
+        .then(response => response.json())
+        .then(json => json.map(country => country.name.toLowerCase()))
+        .then(countryNames =>
+            this.props.onClickStartAgain(countryNames)
+        )
+  }
 
   render() {
     return (
       <div className="form-area">
         <label className="form-area__label" htmlFor="userCountry">Please, enter your country here</label>
-        <button className="button button_red" onClick={this.props.onClickStopTheGame} ref={(button) => this.stopButton = button}>Stop the game</button>
+        {
+          (!this.props.gameData.stopGame) ?  <button className="button button_red" onClick={this.props.onClickStopTheGame} ref={(button) => this.stopButton = button}>Stop the game</button> : <button className="button button_green" onClick={this.startAgain} ref={(button) => this.startAgainButton = button}>Start again</button>
+        }
         <div className="flex-container --center --middle">
 
         <input className="form-area__input" id='userCountry' type="text" ref={(input) => {
           this.textInput = input;
         }}/>
-        <div className="form-area__controlls">
+        <div className="form-area__controls">
           <button className="button" onClick={this.clickHandler} ref={(button) => this.textButton = button}>Enter</button>
           <button className="button" onClick={this.clickHandlerVoice} ref={(button) => this.voiceButton = button}>Enter by
             voice
@@ -208,6 +223,10 @@ export default connect(
     },
     onClickStopTheGame: () => {
       dispatch({ type: 'STOP_THE_GAME' })
+    },
+    onClickStartAgain: (arrCountries) => {
+      dispatch({ type: 'START_AGAIN_THE_GAME' });
+      dispatch({type: 'ADD_COUNTRIES_LIST', countriesList: arrCountries})
     }
   })
 )(FieldInput);

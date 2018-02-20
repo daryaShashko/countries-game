@@ -75,6 +75,6 @@ module.exports = {
 
   devServer: {
     contentBase: "./build",
-    port: 7700
+    port: 3000
   }
 };

@@ -10,7 +10,8 @@ export default function listOfCountries(state = initialState, action) {
     return [
       [...state][0].filter(el => el !== action.countriesList)
     ];
-
+  } else if (action.type === 'START_AGAIN_THE_GAME') {
+    return []
   }
   return state;
 }

@@ -6,6 +6,8 @@ export default function userCountries(state = initialState, action) {
       ...state,
       action.country
     ]
+  }  else if(action.type === "START_AGAIN_THE_GAME"){
+    return []
   }
   return state;
 }

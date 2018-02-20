@@ -11,7 +11,7 @@ class BoardOfResults extends React.Component {
 
   componentDidUpdate(){
     const boardResultContainer = window.document.querySelector('.board__results-container');
-    (this.props.gameData.stopGame) ? boardResultContainer.classList.add('board__results-container_visible') : false
+    (this.props.gameData.stopGame) ? boardResultContainer.classList.add('board__results-container_visible') : boardResultContainer.classList.remove('board__results-container_visible')
   }
 
   render() {
@@ -20,7 +20,7 @@ class BoardOfResults extends React.Component {
 
         <div className="board board__common">
           {
-          (this.props.gameData.listOfDeletedCountries.length === 0) ?  <h2 className="board__title">User you start</h2> : <h2 className="board__title">List of countries</h2>
+          (this.props.gameData.listOfDeletedCountries.length === 0) ?  <h2 className="board__title">Please enter your country first</h2> : <h2 className="board__title">List of countries</h2>
         }
           <ul className="board__list">
             {this.props.gameData.listOfDeletedCountries.map(
@@ -40,7 +40,7 @@ class BoardOfResults extends React.Component {
                 (x, i) => <li className="board__list-item" key={i}>{x}</li>
               )}
             </ul>
-            <h2 className="borad__result">Computer points: {this.props.computerCountries.length * 10}</h2>
+            <h2 className="board__result">Computer points: {this.props.computerCountries.length * 10}</h2>
 
           </div>
 
@@ -52,11 +52,11 @@ class BoardOfResults extends React.Component {
                 (x, i) => <li className="board__list-item" key={i}>{x}</li>
               )}
             </ul>
-            <h2 className="borad__result">User points: {this.props.userCountries.length * 10}</h2>
+            <h2 className="board__result">User points: {this.props.userCountries.length * 10}</h2>
           </div>
 
 
-          <h2 className="borad__result">
+          <h2 className="board__result">
             Winner is {
             (this.props.userCountries.length !== this.props.computerCountries.length) ?
               ((this.props.userCountries.length > this.props.computerCountries.length) ? <span>User</span>: <span>Computer</span>) :
